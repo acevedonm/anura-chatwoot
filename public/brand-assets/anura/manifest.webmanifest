@@ -1,0 +1,15 @@
+{
+  "name": "Anura Connect",
+  "short_name": "Anura Connect",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fbf9",
+  "theme_color": "#388e3c",
+  "icons": [
+    {
+      "src": "/brand-assets/anura/icon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ]
+}
