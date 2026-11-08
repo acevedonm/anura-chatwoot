@@ -1,0 +1,17 @@
+// AC-017: only change the brand accent; preserve native blue and status palettes.
+@layer base {
+  :root {
+    --anura-brand: 46 125 50;
+  }
+
+  // Reuse the original transparent wordmark in a readable monochrome dark variant.
+  .dark img[src='/brand-assets/anura/logo.svg'] {
+    @apply brightness-0 invert;
+  }
+}
+
+@layer utilities {
+  .dark .text-n-brand {
+    @apply text-[#81c784];
+  }
+}
