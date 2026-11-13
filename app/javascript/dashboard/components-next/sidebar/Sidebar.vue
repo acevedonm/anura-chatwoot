@@ -14,6 +14,7 @@ import { useWindowSize, useEventListener } from '@vueuse/core';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
+import SidebarMoreTools from './SidebarMoreTools.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
@@ -967,6 +968,20 @@ const menuItems = computed(() => {
     },
   ];
 });
+const toolSectionNames = new Set([
+  'Captain',
+  'Calls',
+  'Companies',
+  'Reports',
+  'Campaigns',
+  'Portals',
+]);
+const primaryMenuItems = computed(() =>
+  menuItems.value.filter(item => !toolSectionNames.has(item.name))
+);
+const toolMenuItems = computed(() =>
+  menuItems.value.filter(item => toolSectionNames.has(item.name))
+);
 </script>
 
 <template>
@@ -1073,11 +1088,16 @@ const menuItems = computed(() => {
         class="flex flex-col gap-1 m-0 list-none min-w-0"
         :class="{ 'items-center': isEffectivelyCollapsed }"
       >
-        <SidebarGroup
-          v-for="item in menuItems"
-          :key="item.name"
-          v-bind="item"
-        />
+        <template v-for="item in primaryMenuItems" :key="item.name">
+          <SidebarMoreTools
+            v-if="item.name === 'Settings'"
+            :items="toolMenuItems"
+          />
+          <SidebarGroup
+            v-bind="item"
+            :class="{ 'mt-auto pt-3': item.name === 'Settings' }"
+          />
+        </template>
       </ul>
     </nav>
     <section
