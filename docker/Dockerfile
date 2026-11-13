@@ -86,8 +86,12 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
-# Generate .git_sha file with current commit hash
-RUN git rev-parse HEAD > /app/.git_sha
+# Railway source snapshots do not include .git; use its supplied commit SHA.
+ARG RAILWAY_GIT_COMMIT_SHA
+RUN if [ -n "$RAILWAY_GIT_COMMIT_SHA" ]; then \
+  printf '%s\n' "$RAILWAY_GIT_COMMIT_SHA" > /app/.git_sha; \
+  else git rev-parse HEAD > /app/.git_sha; \
+  fi
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
